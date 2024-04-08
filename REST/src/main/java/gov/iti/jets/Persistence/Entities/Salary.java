@@ -17,7 +17,7 @@ public class Salary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "salary_id", nullable = false)
-    private Integer id;
+    private Integer salaryId;
 
     @NotNull
     @Column(name = "payment_amount", nullable = false, precision = 10, scale = 2)

@@ -23,7 +23,7 @@ public class EmployeeResource {
 
     // get all employees
     @GET
-    @Path("/all")
+    // TODO add pagination
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllEmployees() {
         List<EmployeeDTO> employees = employeeService.getAllEmployees();
@@ -37,6 +37,7 @@ public class EmployeeResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addEmployee(EmployeeDTO employeeDTO) {
         boolean isAdded = employeeService.addEmployee(employeeDTO);
+
         return Response.ok(isAdded).build();
     }
     // delete employee
@@ -46,6 +47,17 @@ public class EmployeeResource {
         boolean isDeleted = employeeService.deleteEmployee(id);
         return Response.ok(isDeleted).build();
     }
+
+    // update
+    @PUT
+    @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateEmployee(EmployeeDTO employeeDTO) {
+        boolean isUpdated = employeeService.updateEmployee(employeeDTO);
+        return Response.ok(isUpdated).build();
+    }
+
+
 
 
 }

@@ -24,7 +24,8 @@ public class Department {
     @Column(name = "department_name", nullable = false)
     private String departmentName;
 
-    @NotNull
+    // TODO not null or not?
+//    @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "manager_id", nullable = false)
     private Employee manager;
@@ -36,6 +37,29 @@ public class Department {
 
     @OneToMany(mappedBy = "department")
     private Set<Employee> employees = new LinkedHashSet<>();
+
+    @Transient
+    private Integer managerId;
+
+    @Transient
+    private Integer locationId;
+
+
+    @PostLoad
+    private void postLoad() {
+        if (manager != null) {
+            managerId = manager.getId();
+        }else{
+            managerId = null;
+
+        }
+        if (location != null) {
+            locationId = location.getId();
+        }
+        else {
+            locationId = null;
+        }
+    }
 
 //    @OneToMany(mappedBy = "department")
 //    private Set<JobHistory> jobhistories = new LinkedHashSet<>();

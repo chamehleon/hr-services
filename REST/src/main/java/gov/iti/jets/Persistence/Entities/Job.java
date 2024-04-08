@@ -39,4 +39,15 @@ public class Job {
     @OneToMany(mappedBy = "job")
     private Set<JobHistory> jobhistories = new LinkedHashSet<>();
 
+    //to string
+    @Override
+    public String toString() {
+        return "Job{" +
+                "id=" + id +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", minSalary=" + minSalary +
+                ", maxSalary=" + maxSalary +
+                '}';
+    }
+
 }

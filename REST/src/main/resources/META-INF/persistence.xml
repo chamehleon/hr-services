@@ -38,7 +38,7 @@
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
             <property name="jakarta.persistence.jdbc.password" value="admin" />
             <!-- <property name="jakarta.persistence.jdbc.password" value="TSYkgm64938" /> -->
-          
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.connection.pool_size" value="5"/>
             <property name="hibernate.hikari.connectionTimeout" value="30000"/>
             <property name="hibernate.hikari.minimumIdle" value="5"/>
