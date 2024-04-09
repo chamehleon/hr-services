@@ -10,16 +10,14 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.InflaterInputStream;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "employees", schema = "hr")
-public class Employee {
+public class Employee extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id", nullable = false)
@@ -86,7 +84,7 @@ public class Employee {
 
 
     @Transient
-    private String managerName;
+    private Integer managerId;
 
     @Transient
     private String departmentName;
@@ -106,9 +104,9 @@ public class Employee {
     @PostLoad
     public void postLoad() {
 
-        managerName = Optional.ofNullable(manager)
-                .map(m -> m.getFirstName() + " " + m.getLastName())
-                .orElse("N/A");
+        managerId = Optional.ofNullable(manager)
+                .map(Employee::getId)
+                .orElse(null);
 
         departmentName = Optional.ofNullable(department)
                 .map(Department::getDepartmentName)

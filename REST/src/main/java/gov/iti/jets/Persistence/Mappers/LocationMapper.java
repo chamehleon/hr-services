@@ -5,10 +5,6 @@ import gov.iti.jets.Persistence.Entities.Location;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 @Mapper
-public interface LocationMapper {
+public interface LocationMapper extends GenericMapper<Location, LocationDTO> {
     LocationMapper INSTANCE = Mappers.getMapper(LocationMapper.class);
-
-    LocationDTO toDto(Location entity);
-
-    Location toEntity(LocationDTO dto);
 }

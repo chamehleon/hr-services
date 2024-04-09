@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "salary", schema = "hr")
-public class Salary {
+public class Salary extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "salary_id", nullable = false)
@@ -28,6 +28,9 @@ public class Salary {
 
     @Column(name = "bonuses", precision = 10, scale = 2)
     private BigDecimal bonuses;
+
+    @Column(name = "deleted", nullable = true, columnDefinition = "boolean default false")
+    private boolean deleted;
 
     @OneToMany(mappedBy = "salary")
     private Set<Employee> employees = new LinkedHashSet<>();

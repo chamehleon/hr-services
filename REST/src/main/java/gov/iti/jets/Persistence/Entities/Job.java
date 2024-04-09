@@ -14,11 +14,11 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "jobs", schema = "hr")
-public class Job {
+public class Job extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_id", nullable = false)
-    private Integer id;
+    private Integer jobHistoryId;
 
     @Size(max = 255)
     @NotNull
@@ -39,11 +39,15 @@ public class Job {
     @OneToMany(mappedBy = "job")
     private Set<JobHistory> jobhistories = new LinkedHashSet<>();
 
+
+    @Column(name = "deleted", nullable = true, columnDefinition = "boolean default false")
+    private boolean deleted;
+
     //to string
     @Override
     public String toString() {
         return "Job{" +
-                "id=" + id +
+                "id=" + jobHistoryId +
                 ", jobTitle='" + jobTitle + '\'' +
                 ", minSalary=" + minSalary +
                 ", maxSalary=" + maxSalary +

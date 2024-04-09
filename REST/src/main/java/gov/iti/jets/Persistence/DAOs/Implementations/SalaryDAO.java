@@ -8,6 +8,6 @@ public class SalaryDAO extends GenericDAO<Salary> {
         super(Salary.class);
     }
 
-    // create salary
+
 
 }

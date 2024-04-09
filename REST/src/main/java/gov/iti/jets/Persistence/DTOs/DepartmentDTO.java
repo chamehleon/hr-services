@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class DepartmentDTO implements Serializable {
+public class DepartmentDTO extends BaseDTO implements Serializable {
     private Integer id;
     private String departmentName;
     private Integer managerId;

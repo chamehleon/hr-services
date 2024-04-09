@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class LocationDTO implements Serializable {
+public class LocationDTO extends BaseDTO implements Serializable {
 
     private Integer id;
     private String streetAddress;

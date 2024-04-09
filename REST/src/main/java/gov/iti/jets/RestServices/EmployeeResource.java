@@ -1,11 +1,13 @@
 package gov.iti.jets.RestServices;
 
 import gov.iti.jets.Persistence.DTOs.EmployeeDTO;
+import gov.iti.jets.Persistence.DTOs.JobHistoryDTO;
 import gov.iti.jets.Services.EmployeeService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Path("employees")
 public class EmployeeResource {
@@ -57,7 +59,22 @@ public class EmployeeResource {
         return Response.ok(isUpdated).build();
     }
 
+    // get job history
+    @GET
+    @Path("/jobHistory/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getJobHistory(@PathParam("id") int id) {
+        Set<JobHistoryDTO> jobHistory = (Set<JobHistoryDTO>) employeeService.getJobHistory(id);
+        return Response.ok(jobHistory).build();
+    }
 
-
+    // partial update
+    @PATCH
+    @Path("/partialUpdate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response partialUpdateEmployee(EmployeeDTO employeeDTO) {
+        boolean isUpdated = employeeService.updateEmployee(employeeDTO);
+        return Response.ok(isUpdated).build();
+    }
 
 }

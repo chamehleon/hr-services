@@ -7,10 +7,11 @@ import gov.iti.jets.Persistence.Entities.Salary;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 @Mapper
-public interface SalaryMapper {
+public interface SalaryMapper extends GenericMapper<Salary, SalaryDTO>{
     SalaryMapper INSTANCE = Mappers.getMapper(SalaryMapper.class);
 
-    SalaryDTO toDto(Salary entity);
+    @Override
+    default void toEntityAfterMapping(Salary salary, SalaryDTO salaryDTO) {
+    }
 
-    Salary toEntity(SalaryDTO dto);
 }

@@ -4,13 +4,15 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
-public class JobDTO implements Serializable {
-    private Integer id;
+public class JobDTO extends BaseDTO implements Serializable {
+    private Integer jobHistoryId;
     private String jobTitle;
-    private Integer minSalary;
-    private Integer maxSalary;
+    private BigDecimal minSalary;
+    private BigDecimal maxSalary;
+    private boolean deleted;
 
 
 }

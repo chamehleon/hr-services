@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "vacationrequest", schema = "hr")
-public class VacationRequest {
+public class VacationRequest extends BaseEntity{
     @Id
     @Column(name = "request_id", nullable = false)
     private Integer id;

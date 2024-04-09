@@ -11,11 +11,11 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "jobhistory", schema = "hr")
-public class JobHistory {
+public class JobHistory extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_history_id", nullable = false)
-    private Integer id;
+    private Integer jobHistoryId;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -33,10 +33,12 @@ public class JobHistory {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "job_id", nullable = false)
     private Job job;
-//
-//    @NotNull
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "department_id", nullable = false)
-//    private Department department;
+
+
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
 }
