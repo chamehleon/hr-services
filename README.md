@@ -30,10 +30,6 @@ The HR Management System is a comprehensive software solution designed to stream
 **Apache Maven:** You can download it from here. Download the Binary Zip Archive. Add path/to/maven/bin to your PATH environment variable. Verify the installation by running mvn -version in your terminal. 
 
 
-To indicate that Tomcat is required to run your HR Management System, you can add a section in the README file under the "Getting Started" heading. Here's how you can do it:
-
-markdown
-Copy code
 ## Getting Started
 
 To get started with the HR Management System, follow these steps:
