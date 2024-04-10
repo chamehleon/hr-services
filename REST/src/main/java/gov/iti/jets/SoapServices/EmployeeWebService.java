@@ -8,12 +8,15 @@ import gov.iti.jets.Services.EmployeeService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
 @WebService
+@BindingType(SOAPBinding.SOAP12HTTP_BINDING)
 public class EmployeeWebService {
     private final EmployeeService employeeService = new EmployeeService();
 

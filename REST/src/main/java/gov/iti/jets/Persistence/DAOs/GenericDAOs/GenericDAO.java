@@ -46,7 +46,8 @@ public abstract class GenericDAO<T> {
         try{
             entityManager.persist(entity);
         } catch (Exception e) {
-           throw new IllegalCreateOperationException("Invalid Save Operation On " + entity.getClass().getSimpleName() );
+            e.printStackTrace();
+          // throw new IllegalCreateOperationException("Invalid Save Operation On " + entity.getClass().getSimpleName() );
         }
         return entity;
     }

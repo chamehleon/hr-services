@@ -7,12 +7,12 @@
 
     </endpoint>
 
-<!--    <endpoint-->
-<!--            name="DepartmentWebService"-->
-<!--            implementation="gov.iti.jets.SoapServices.DepartmentWebService"-->
-<!--            url-pattern="/soap/departments">-->
+    <endpoint
+            name="DepartmentWebService"
+            implementation="gov.iti.jets.SoapServices.DepartmentWebService"
+            url-pattern="/soap/departments">
 
-<!--    </endpoint>-->
+    </endpoint>
 
     <endpoint
             name="SalaryWebService"
@@ -24,6 +24,20 @@
             name="EmployeeWebService"
             implementation="gov.iti.jets.SoapServices.EmployeeWebService"
             url-pattern="/soap/employees">
+    </endpoint>
+
+    <endpoint
+            name="VacationRequestWebService"
+            implementation="gov.iti.jets.SoapServices.VacationRequestWebService"
+            url-pattern="/soap/vacationRequests">
+
+    </endpoint>
+
+    <endpoint
+            name="JobHistoryWebService"
+            implementation="gov.iti.jets.SoapServices.JobHistoryWebService"
+            url-pattern="/soap/jobHistories">
+
     </endpoint>
 
 

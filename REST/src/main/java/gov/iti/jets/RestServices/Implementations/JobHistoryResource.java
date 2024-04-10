@@ -37,7 +37,6 @@ public class JobHistoryResource implements ResourceInterface<JobHistoryDTO> {
     }
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll(@QueryParam("page") @DefaultValue("1") int page, @QueryParam("size") @DefaultValue("10") int size){
         List<JobHistoryDTO> jobHistories = jobHistoryService.getAll(page, size);
@@ -45,6 +44,15 @@ public class JobHistoryResource implements ResourceInterface<JobHistoryDTO> {
     }
 
     @PATCH
+    @Path("/partialUpdate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response partialUpdate(JobHistoryDTO jobHistoryDTO){
+        JobHistoryDTO result = jobHistoryService.update(jobHistoryDTO);
+        return ResponseBuilder.SUCCESS(result);
+    }
+
+    @PUT
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

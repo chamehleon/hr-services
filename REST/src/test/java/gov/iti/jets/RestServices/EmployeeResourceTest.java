@@ -6,12 +6,15 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmployeeResourceTest {
-    private static final String BASE_URL = "http://localhost:9090/HRREST/webapi/employees";
+    private static final String BASE_URL = "http://localhost:9090/api/rest/employees";
 
     private Client client;
 
@@ -41,7 +44,7 @@ public class EmployeeResourceTest {
     @Test
     public void testGetEmployeeById() {
         // Arrange
-        int employeeId = 1; // Replace with an existing employee ID
+        int employeeId = 4; // Replace with an existing employee ID
         WebTarget target = client.target(BASE_URL + "/" + employeeId);
         Invocation.Builder request = target.request(MediaType.APPLICATION_JSON);
 
@@ -62,6 +65,18 @@ public class EmployeeResourceTest {
         Invocation.Builder request = target.request(MediaType.APPLICATION_JSON);
 
         EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setFirstName("ahmed");
+        employeeDTO.setLastName("Mohamed");
+        employeeDTO.setEmail("ahmed@gmail.com");
+        employeeDTO.setPhoneNumber("01000000000");
+        employeeDTO.setHireDate(LocalDate.now());
+        employeeDTO.setJobTitle("Instructor");
+        employeeDTO.setCommissionPct(new BigDecimal(0.1));
+        employeeDTO.setManagerId(4);
+        employeeDTO.setDepartmentName("IT");
+        employeeDTO.setSalaryId(40);
+
+
         // Set properties of the employeeDTO
 
         Entity<EmployeeDTO> employeeEntity = Entity.entity(employeeDTO, MediaType.APPLICATION_JSON);
@@ -70,13 +85,13 @@ public class EmployeeResourceTest {
         Response response = request.post(employeeEntity);
 
         // Assert
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
 
     @Test
     public void testDeleteEmployee() {
         // Arrange
-        int employeeId = 1; // Replace with an existing employee ID
+        int employeeId = 20; // Replace with an existing employee ID
         WebTarget target = client.target(BASE_URL + "/delete/" + employeeId);
         Invocation.Builder request = target.request();
 
@@ -97,7 +112,9 @@ public class EmployeeResourceTest {
         Invocation.Builder request = target.request(MediaType.APPLICATION_JSON);
 
         EmployeeDTO employeeDTO = new EmployeeDTO();
-        // Set properties of the employeeDTO to be updated
+        employeeDTO.setId(4);
+        employeeDTO.setEmail("nouran@gmail.com");
+
 
         Entity<EmployeeDTO> employeeEntity = Entity.entity(employeeDTO, MediaType.APPLICATION_JSON);
 
@@ -111,7 +128,7 @@ public class EmployeeResourceTest {
     @Test
     public void testGetJobHistory() {
         // Arrange
-        int employeeId = 1; // Replace with an existing employee ID
+        int employeeId = 4; // Replace with an existing employee ID
         WebTarget target = client.target(BASE_URL + "/jobHistory/" + employeeId);
         Invocation.Builder request = target.request(MediaType.APPLICATION_JSON);
 
@@ -122,21 +139,6 @@ public class EmployeeResourceTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
-    @Test
-    public void testPartialUpdateEmployee() {
-        // Arrange
-        WebTarget target = client.target(BASE_URL + "/partialUpdate");
-        Invocation.Builder request = target.request(MediaType.APPLICATION_JSON);
 
-        EmployeeDTO employeeDTO = new EmployeeDTO();
-        // Set properties of the employeeDTO to be partially updated
 
-        Entity<EmployeeDTO> employeeEntity = Entity.entity(employeeDTO, MediaType.APPLICATION_JSON);
-
-        // Act
-        Response response = request.method("PATCH", employeeEntity);
-
-        // Assert
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    }
 }

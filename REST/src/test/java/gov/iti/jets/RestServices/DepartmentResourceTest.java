@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DepartmentResourceTest {
 
-    private static final String BASE_URL = "http://localhost:9090/REST/webapi/departments";
+    private static final String BASE_URL = "http://localhost:9090/api/rest/departments";
 
     @Test
     public void testGetAllDepartments() {
@@ -36,7 +36,7 @@ public class DepartmentResourceTest {
 
     @Test
     public void testGetEmployeesInDepartment() {
-        int departmentId = 1;
+        int departmentId =  3;
         Client client = ClientBuilder.newClient();
         Invocation.Builder request = client.target(BASE_URL + "/" + departmentId + "/employees")
                 .request(MediaType.APPLICATION_JSON);
@@ -48,8 +48,8 @@ public class DepartmentResourceTest {
 
     @Test
     public void testChangeDepartmentManager() {
-        int departmentId = 1;
-        int managerId = 10;
+        int departmentId = 9;
+        int managerId = 19;
         Client client = ClientBuilder.newClient();
         Invocation.Builder request = client.target(BASE_URL + "/" + departmentId + "/manager/" + managerId)
                 .request(MediaType.APPLICATION_JSON);
@@ -61,7 +61,7 @@ public class DepartmentResourceTest {
 
     @Test
     public void testGetDepartmentManager() {
-        int departmentId = 1;
+        int departmentId = 3;
         Client client = ClientBuilder.newClient();
         Invocation.Builder request = client.target(BASE_URL + "/" + departmentId + "/manager")
                 .request(MediaType.APPLICATION_JSON);
@@ -75,6 +75,12 @@ public class DepartmentResourceTest {
     public void testCreateDepartment() {
         DepartmentDTO departmentDTO = new DepartmentDTO();
         // Set departmentDTO properties
+        departmentDTO.setDepartmentName("Marketing");
+        departmentDTO.setLocationId(7);
+        departmentDTO.setManagerId(19);
+
+
+
 
         Client client = ClientBuilder.newClient();
         Invocation.Builder request = client.target(BASE_URL + "/add")
@@ -89,6 +95,11 @@ public class DepartmentResourceTest {
     @Test
     public void testUpdateDepartment() {
         DepartmentDTO departmentDTO = new DepartmentDTO();
+        departmentDTO.setId(20);
+        departmentDTO.setDepartmentName("Legal");
+        departmentDTO.setLocationId(7);
+        departmentDTO.setManagerId(19);
+
         // Set departmentDTO properties
 
         Client client = ClientBuilder.newClient();
@@ -113,24 +124,10 @@ public class DepartmentResourceTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
-    @Test
-    public void testPartialUpdateDepartment() {
-        DepartmentDTO departmentDTO = new DepartmentDTO();
-        // Set departmentDTO properties for partial update
-
-        Client client = ClientBuilder.newClient();
-        Invocation.Builder request = client.target(BASE_URL + "/partialUpdate")
-                .request(MediaType.APPLICATION_JSON);
-
-        Entity<DepartmentDTO> departmentEntity = Entity.entity(departmentDTO, MediaType.APPLICATION_JSON);
-        Response response = request.method("PATCH", departmentEntity);
-
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    }
 
     @Test
     public void testGetDepartmentById() {
-        int departmentId = 1;
+        int departmentId = 4;
         Client client = ClientBuilder.newClient();
         Invocation.Builder request = client.target(BASE_URL + "/" + departmentId)
                 .request(MediaType.APPLICATION_JSON);

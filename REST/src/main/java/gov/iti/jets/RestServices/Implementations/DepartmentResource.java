@@ -39,7 +39,7 @@ public class DepartmentResource implements ResourceInterface<DepartmentDTO> {
     @Path("{id}/manager/{managerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response changeDepartmentManager(@PathParam("id") Integer id, @PathParam("managerId") Integer managerId) {
-        return ResponseBuilder.SUCCESS(departmentService.changeDepartmentManager(managerId, managerId));
+        return ResponseBuilder.SUCCESS(departmentService.changeDepartmentManager(id, managerId));
           //  return Response.ok().entity(departmentService.changeDepartmentManager(managerId, managerId)).build();
     }
     // get department manager

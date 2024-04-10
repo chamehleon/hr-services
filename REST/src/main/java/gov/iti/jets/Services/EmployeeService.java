@@ -24,7 +24,9 @@ public class EmployeeService implements GenericService<EmployeeDTO> {
     public EmployeeDTO create(EmployeeDTO employeeDTO) {
         return JPATransactionManager.doInTransaction(entityManager -> {
             Employee employee = EmployeeMapper.INSTANCE.toEntity(employeeDTO);
-            setSalary(employeeDTO, employee);
+            Salary createdSalary = entityManager.find(Salary.class, employeeDTO.getSalaryId());
+            employee.setSalary(createdSalary);
+
             setJob(employeeDTO, employee);
             setDepartment(employeeDTO, employee);
             setManagedDepartment(employeeDTO, employee);
@@ -34,27 +36,28 @@ public class EmployeeService implements GenericService<EmployeeDTO> {
     }
 
 
-    private void setSalary(EmployeeDTO employeeDTO, Employee employee) {
-        SalaryService salaryService = new SalaryService();
-        SalaryDTO salaryDTO = null;
-
-        if(employeeDTO.getSalaryId() != null)
-            salaryDTO = salaryService.getById(employeeDTO.getSalaryId());
-        if (salaryDTO != null) {
-            employee.setSalary(SalaryMapper.INSTANCE.toEntity(salaryDTO));
-        }else{
-            if(employeeDTO.getSalaryAmount() != null) {
-                Salary salary = new Salary();
-                salary.setPaymentAmount(employeeDTO.getSalaryAmount());
-                SalaryDTO createdSalary = salaryService.create(SalaryMapper.INSTANCE.toDto(salary));
-                employee.setSalary(SalaryMapper.INSTANCE.toEntity(createdSalary));
-            }
-        }
-        System.out.println("msh 3arfa" +employee.getSalary().getPaymentAmount());
-
-
-
-    }
+//    private void setSalary(EmployeeDTO employeeDTO, Employee employee) {
+//        SalaryService salaryService = new SalaryService();
+//        SalaryDTO salaryDTO = null;
+//
+//        if(employeeDTO.getSalaryId() != null)
+//            salaryDTO = salaryService.getById(employeeDTO.getSalaryId());
+//        if (salaryDTO != null) {
+//            employee.setSalary(SalaryMapper.INSTANCE.toEntity(salaryDTO));
+//        }else{
+//            if(employeeDTO.getSalaryAmount() != null) {
+//                Salary salary = new Salary();
+//                salary.setPaymentAmount(employeeDTO.getSalaryAmount());
+//                SalaryDTO createdSalary = salaryService.create(SalaryMapper.INSTANCE.toDto(salary));
+////                SalaryDTO managedSalary = salaryService.update(createdSalary);
+//                employee.setSalary(SalaryMapper.INSTANCE.toEntity(createdSalary));
+//            }
+//        }
+//        System.out.println("msh 3arfa" +employee.getSalary().getPaymentAmount());
+//
+//
+//
+//    }
 
 
     private void setJob(EmployeeDTO employeeDTO, Employee employee) {
@@ -196,7 +199,8 @@ public class EmployeeService implements GenericService<EmployeeDTO> {
             }
 
             Employee updatedEmployee = (Employee) EmployeeMapper.INSTANCE.partialUpdate(employeeDTO, existingEmployee);
-            setSalary(employeeDTO, updatedEmployee);
+            Salary createdSalary = entityManager.find(Salary.class, employeeDTO.getSalaryId());
+            updatedEmployee.setSalary(createdSalary);
             setJob(employeeDTO, updatedEmployee);
             setDepartment(employeeDTO, updatedEmployee);
             setManagedDepartment(employeeDTO, updatedEmployee);

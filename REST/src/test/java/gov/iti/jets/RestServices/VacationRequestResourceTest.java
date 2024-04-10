@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VacationRequestResourceTest {
 
-    private static final String BASE_URL = "http://localhost:9090/REST/webapi/vacationRequests";
+    private static final String BASE_URL = "http://localhost:9090/api/rest/vacationRequests";
 
     @Test
     public void testGetAllVacationRequests() {

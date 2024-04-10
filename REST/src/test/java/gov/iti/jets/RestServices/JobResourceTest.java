@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JobResourceTest {
 
-    private static final String BASE_URL = "http://localhost:9090/REST/webapi/jobs";
+    private static final String BASE_URL = "http://localhost:9090/api/rest/jobs";
 
     @Test
     public void testGetAllJobs() {
@@ -60,7 +60,7 @@ public class JobResourceTest {
         // Arrange
         Client client = ClientBuilder.newClient();
         Invocation.Builder request = client.target(BASE_URL + "/find/title/{title}")
-                .resolveTemplate("title", "Plumber")
+                .resolveTemplate("title", "plumber")
                 .request(MediaType.APPLICATION_JSON);
 
         // Act

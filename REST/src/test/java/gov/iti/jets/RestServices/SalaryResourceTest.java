@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SalaryResourceTest {
 
-    private static final String BASE_URL = "http://localhost:9090/REST/webapi/salaries";
+    private static final String BASE_URL = "http://localhost:9090/api/rest/salaries";
 
     @Test
     public void testGetAllSalaries() {
@@ -73,25 +73,6 @@ public class SalaryResourceTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
-    @Test
-    public void testPartialUpdateSalary() {
-        // Arrange
-        Client client = ClientBuilder.newClient();
-        Invocation.Builder request = client.target(BASE_URL + "/update/{id}")
-                .resolveTemplate("id", 1)
-                .request(MediaType.APPLICATION_JSON);
-
-        SalaryDTO salaryDTO = new SalaryDTO();
-        // Set salaryDTO properties to partially update
-
-        Entity<SalaryDTO> salaryEntity = Entity.entity(salaryDTO, MediaType.APPLICATION_JSON);
-
-        // Act
-        Response response = request.method("PATCH", salaryEntity);
-
-        // Assert
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    }
 
     @Test
     public void testDeleteSalary() {

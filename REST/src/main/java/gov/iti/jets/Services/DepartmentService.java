@@ -33,7 +33,7 @@ public class DepartmentService implements GenericService<DepartmentDTO> {
     }
 
     // change department manager
-    public DepartmentDTO changeDepartmentManager(Integer managerId, Integer departmentId) {
+    public DepartmentDTO changeDepartmentManager(Integer departmentId, Integer managerId) {
         return JPATransactionManager.doInTransaction(entityManager -> {
             EmployeeDAO employeeDAO = new EmployeeDAO();
             EmployeeService employeeService = new EmployeeService();
