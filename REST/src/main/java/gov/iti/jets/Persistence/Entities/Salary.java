@@ -32,7 +32,8 @@ public class Salary extends BaseEntity{
     @Column(name = "deleted", nullable = true, columnDefinition = "boolean default false")
     private boolean deleted;
 
-    @OneToMany(mappedBy = "salary")
-    private Set<Employee> employees = new LinkedHashSet<>();
+
+    @OneToOne(mappedBy = "salary")
+    private Employee employee;
 
 }

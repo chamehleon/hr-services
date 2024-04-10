@@ -3,6 +3,7 @@ package gov.iti.jets.Services;
 import gov.iti.jets.Persistence.DAOs.Implementations.DepartmentDAO;
 import gov.iti.jets.Persistence.DAOs.Implementations.JobHistoryDAO;
 import gov.iti.jets.Persistence.DTOs.JobHistoryDTO;
+import gov.iti.jets.Persistence.Entities.Job;
 import gov.iti.jets.Persistence.Entities.JobHistory;
 import gov.iti.jets.Persistence.Mappers.JobHistoryMapper;
 import gov.iti.jets.Utils.JPATransactionManager;
@@ -10,22 +11,22 @@ import gov.iti.jets.Utils.JPATransactionManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JobHistoryService {
-    public boolean addJobHistory(JobHistoryDTO jobHistoryDTO){
+public class JobHistoryService implements GenericService<JobHistoryDTO>{
+    public JobHistoryDTO create(JobHistoryDTO jobHistoryDTO){
         return JPATransactionManager.doInTransaction(entityManager -> {
             JobHistoryDAO jobHistoryDAO = new JobHistoryDAO();
-            return  jobHistoryDAO.create(JobHistoryMapper.INSTANCE.toEntity(jobHistoryDTO),entityManager);
+            return JobHistoryMapper.INSTANCE.toDto(jobHistoryDAO.create(JobHistoryMapper.INSTANCE.toEntity(jobHistoryDTO),entityManager));
         });
     }
 
-    public JobHistoryDTO getJobHistory(Integer id){
+    public JobHistoryDTO getById(Integer id){
         return JPATransactionManager.doInTransaction(entityManager -> {
             JobHistoryDAO jobHistoryDAO = new JobHistoryDAO();
             return JobHistoryMapper.INSTANCE.toDto(jobHistoryDAO.findById(id,entityManager));
         });
     }
 
-    public JobHistoryDTO updateJobHistory(JobHistoryDTO jobHistoryDTO){
+    public JobHistoryDTO update(JobHistoryDTO jobHistoryDTO){
         return JPATransactionManager.doInTransaction(entityManager -> {
             JobHistoryDAO jobHistoryDAO = new JobHistoryDAO();
             JobHistory existing = jobHistoryDAO.findById(jobHistoryDTO.getJobHistoryId(),entityManager);
@@ -35,7 +36,7 @@ public class JobHistoryService {
         });
     }
 
-    public boolean deleteJobHistory(Integer id){
+    public boolean delete(Integer id){
         return JPATransactionManager.doInTransaction(entityManager -> {
             JobHistoryDAO jobHistoryDAO = new JobHistoryDAO();
             JobHistory jobHistory = jobHistoryDAO.findById(id,entityManager);
@@ -44,10 +45,10 @@ public class JobHistoryService {
         });
     }
 
-    public List<JobHistoryDTO> getAllJobHistories(){
+    public List<JobHistoryDTO> getAll(int page,int size){
         return JPATransactionManager.doInTransaction(entityManager -> {
             JobHistoryDAO jobHistoryDAO = new JobHistoryDAO();
-            List<JobHistory> jobHistories = jobHistoryDAO.findAll(entityManager);
+            List<JobHistory> jobHistories = jobHistoryDAO.findAll(entityManager,page,size);
             return jobHistories.stream().map(JobHistoryMapper.INSTANCE::toDto).collect(Collectors.toList());
         });
     }

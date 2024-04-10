@@ -16,21 +16,25 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class DepartmentService {
+public class DepartmentService implements GenericService<DepartmentDTO> {
+    DepartmentDAO departmentDAO;
+
+    public DepartmentService() {
+         departmentDAO = new DepartmentDAO();
+    }
 
     // delete department
-    public boolean deleteDepartment(int id) {
+    public boolean delete(Integer id) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            DepartmentDAO departmentDAO = new DepartmentDAO();
+
             departmentDAO.deleteById(id, entityManager);
             return departmentDAO.findById(id, entityManager) == null;
         });
     }
 
     // change department manager
-    public boolean changeDepartmentManager(Integer managerId, Integer departmentId) {
+    public DepartmentDTO changeDepartmentManager(Integer managerId, Integer departmentId) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            DepartmentDAO departmentDAO = new DepartmentDAO();
             EmployeeDAO employeeDAO = new EmployeeDAO();
             EmployeeService employeeService = new EmployeeService();
             Department department = departmentDAO.findById(departmentId, entityManager);
@@ -41,29 +45,26 @@ public class DepartmentService {
             }
             manager.setManagedDepartment(department);
             department.setManager(manager);
-            employeeService.updateEmployee(EmployeeMapper.INSTANCE.toDto(manager));
-            return departmentDAO.update(department, entityManager) != null;
+            employeeService.update(EmployeeMapper.INSTANCE.toDto(manager));
+            return DepartmentMapper.INSTANCE.toDto(departmentDAO.update(department, entityManager));
         });
     }
     // find department by name
     public DepartmentDTO findDepartmentByName(String name) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            DepartmentDAO departmentDAO = new DepartmentDAO();
             return DepartmentMapper.INSTANCE.toDto(departmentDAO.findByDepartmentName(name, entityManager));
         });
     }
 
 
-    public List<DepartmentDTO> getAllDepartments() {
+    public List<DepartmentDTO> getAll(int page,int size) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            DepartmentDAO departmentDAO = new DepartmentDAO();
-            return (List<DepartmentDTO>) DepartmentMapper.INSTANCE.collectionToDto(departmentDAO.findAll(entityManager));
+            return (List<DepartmentDTO>) DepartmentMapper.INSTANCE.collectionToDto(departmentDAO.findAll(entityManager,page,size));
         });
     }
     // get employees in department
     public Set<EmployeeDTO> getEmployeesInDepartment(int departmentId) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            DepartmentDAO departmentDAO = new DepartmentDAO();
             Department department = departmentDAO.findById(departmentId, entityManager);
             return new HashSet<>(EmployeeMapper.INSTANCE.collectionToDto(department.getEmployees()));
         });
@@ -71,18 +72,54 @@ public class DepartmentService {
     // get department manager
     public EmployeeDTO getDepartmentManager(int departmentId) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            DepartmentDAO departmentDAO = new DepartmentDAO();
             Department department = departmentDAO.findById(departmentId, entityManager);
             return EmployeeMapper.INSTANCE.toDto(department.getManager());
         });
     }
 
     // add new department
-    public boolean addDepartment(DepartmentDTO departmentDTO) {
+    public DepartmentDTO create(DepartmentDTO departmentDTO) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            DepartmentDAO departmentDAO = new DepartmentDAO();
             Department department = DepartmentMapper.INSTANCE.toEntity(departmentDTO);
-            return departmentDAO.create(department, entityManager);
+            if (department.getManager() != null && department.getManager().getManagedDepartment() != null){
+                throw new IllegalUpdateOperationException("Manager already manages a department");
+            }
+            return DepartmentMapper.INSTANCE.toDto(departmentDAO.create(department, entityManager));
         });
     }
+
+    // update department
+    public DepartmentDTO update(DepartmentDTO departmentDTO) {
+        return JPATransactionManager.doInTransaction(entityManager -> {
+            Department department = DepartmentMapper.INSTANCE.toEntity(departmentDTO);
+            return DepartmentMapper.INSTANCE.toDto(departmentDAO.update(department, entityManager));
+        });
+    }
+
+    // partial update department
+    public DepartmentDTO partialUpdateDepartment(DepartmentDTO departmentDTO) {
+        return JPATransactionManager.doInTransaction(entityManager -> {
+            Department existing = departmentDAO.findById(departmentDTO.getId(), entityManager);
+            Department newDepartment = (Department) DepartmentMapper.INSTANCE.partialUpdate(departmentDTO, existing);
+            return DepartmentMapper.INSTANCE.toDto(newDepartment);
+        });
+
+    }
+    // get department by id
+    public DepartmentDTO getById(Integer id) {
+        return JPATransactionManager.doInTransaction(entityManager -> {
+            return DepartmentMapper.INSTANCE.toDto(departmentDAO.findById(id, entityManager));
+        });
+    }
+    // delete department
+    public boolean deleteDepartment(Integer id) {
+//        return JPATransactionManager.doInTransaction(entityManager -> {
+//            Department department = departmentDAO.findById(id, entityManager);
+//            department.setArchived(true);
+//            return department.isArchived();
+//        });
+        return false;
+    }
+
+
 }

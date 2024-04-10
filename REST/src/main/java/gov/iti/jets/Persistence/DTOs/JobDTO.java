@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Data
 public class JobDTO extends BaseDTO implements Serializable {
-    private Integer jobHistoryId;
+    private Integer jobId;
     private String jobTitle;
     private BigDecimal minSalary;
     private BigDecimal maxSalary;

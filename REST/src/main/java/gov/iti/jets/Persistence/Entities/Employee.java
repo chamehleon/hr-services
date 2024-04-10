@@ -61,7 +61,7 @@ public class Employee extends BaseEntity {
     private Employee manager;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "salary_id", nullable = false)
     private Salary salary;
 
@@ -83,6 +83,11 @@ public class Employee extends BaseEntity {
 
 
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
+    private Set<VacationRequest> vacationRequests = new HashSet<>();
+
+
+
     @Transient
     private Integer managerId;
 
@@ -100,6 +105,7 @@ public class Employee extends BaseEntity {
 
     @Transient
     private BigDecimal salaryAmount;
+
 
     @PostLoad
     public void postLoad() {

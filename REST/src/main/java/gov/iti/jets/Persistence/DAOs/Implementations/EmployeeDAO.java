@@ -24,7 +24,17 @@ public class EmployeeDAO extends GenericDAO<Employee> {
         }
         return null;
     }
-    // find by id
+    // getEmployeesManagedBy manager id
+    public List<Employee> getEmployeesManagedBy(int id, EntityManager entityManager) {
+        try {
+            return entityManager.createQuery("select e from Employee e where e.manager.id = :id", Employee.class)
+                    .setParameter("id", id)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
 

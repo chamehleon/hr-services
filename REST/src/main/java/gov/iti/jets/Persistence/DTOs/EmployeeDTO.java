@@ -19,10 +19,14 @@ public class EmployeeDTO extends BaseDTO implements Serializable {
     private String jobTitle;
     private Integer managerId;
 
+
     private Integer salaryId;
     private BigDecimal salaryAmount;
     private BigDecimal commissionPct;
 
     private String departmentName;
     private String managedDepartmentName;
+    private Integer vacationBalance;
+
+
 }

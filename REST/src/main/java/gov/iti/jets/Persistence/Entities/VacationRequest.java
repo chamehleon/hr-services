@@ -14,10 +14,11 @@ import java.time.LocalDate;
 public class VacationRequest extends BaseEntity{
     @Id
     @Column(name = "request_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
@@ -33,5 +34,9 @@ public class VacationRequest extends BaseEntity{
     @Lob
     @Column(name = "Status", nullable = false)
     private String status;
+
+    @Column(name = "archived", nullable = true, columnDefinition = "boolean default false")
+    private boolean archived;
+
 
 }

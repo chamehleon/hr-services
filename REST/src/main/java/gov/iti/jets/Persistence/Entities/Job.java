@@ -18,7 +18,7 @@ public class Job extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_id", nullable = false)
-    private Integer jobHistoryId;
+    private Integer jobId;
 
     @Size(max = 255)
     @NotNull
@@ -47,7 +47,7 @@ public class Job extends BaseEntity {
     @Override
     public String toString() {
         return "Job{" +
-                "id=" + jobHistoryId +
+                "id=" + jobId +
                 ", jobTitle='" + jobTitle + '\'' +
                 ", minSalary=" + minSalary +
                 ", maxSalary=" + maxSalary +

@@ -39,7 +39,7 @@ public interface DepartmentMapper extends GenericMapper<Department, DepartmentDT
         if (departmentDTO.getLocationId() != null) {
             System.out.println("Location ID: " + departmentDTO.getLocationId());
             LocationService locationService = new LocationService();
-            LocationDTO locationDTO = locationService.findLocationById(departmentDTO.getLocationId());
+            LocationDTO locationDTO = locationService.getById(departmentDTO.getLocationId());
             department.setLocation(LocationMapper.INSTANCE.toEntity(locationDTO));
         }
     }

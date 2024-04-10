@@ -36,33 +36,33 @@ public interface EmployeeMapper extends GenericMapper<Employee, EmployeeDTO>{
 
     @AfterMapping
     default void toEntityAfterMapping(@MappingTarget Employee employee, EmployeeDTO employeeDTO) {
-        if (employeeDTO.getJobTitle() != null ){
-            JobService jobService = new JobService();
-            JobDTO job = jobService.findJobByTitle(employeeDTO.getJobTitle());
-            Job jobEntity = JobMapper.INSTANCE.toEntity(job);
-            employee.setJob(jobEntity);
-        }
-        if (employeeDTO.getDepartmentName() != null ) {
-            DepartmentService departmentService = new DepartmentService();
-            DepartmentDTO departmentDTO = departmentService.findDepartmentByName(employeeDTO.getDepartmentName());
-            employee.setDepartment(DepartmentMapper.INSTANCE.toEntity(departmentDTO));
-        }
-        if (employeeDTO.getSalaryId() != null) {
-            SalaryService salaryService = new SalaryService();
-            Optional<SalaryDTO> salaryDTO = salaryDTO = salaryService.findSalaryById(employeeDTO.getSalaryId());
-            employee.setSalary(SalaryMapper.INSTANCE.toEntity(salaryDTO.get()));
-        }
-        if(employeeDTO.getManagedDepartmentName() != null){
-            DepartmentService departmentService = new DepartmentService();
-            DepartmentDTO departmentDTO = departmentService.findDepartmentByName(employeeDTO.getManagedDepartmentName());
-            employee.setManagedDepartment(DepartmentMapper.INSTANCE.toEntity(departmentDTO));
-        }
-        if (employeeDTO.getManagerId() != null) {
-            System.out.println("Manager ID: " + employeeDTO.getManagerId());
-            EmployeeService employeeService = new EmployeeService();
-            EmployeeDTO managerDTO = employeeService.findEmployeeById(employeeDTO.getManagerId());
-            employee.setManager(EmployeeMapper.INSTANCE.toEntity(managerDTO));
-        }
+//        if (employeeDTO.getJobTitle() != null ){
+//            JobService jobService = new JobService();
+//            JobDTO job = jobService.findJobByTitle(employeeDTO.getJobTitle());
+//            Job jobEntity = JobMapper.INSTANCE.toEntity(job);
+//            employee.setJob(jobEntity);
+//        }
+//        if (employeeDTO.getDepartmentName() != null ) {
+//            DepartmentService departmentService = new DepartmentService();
+//            DepartmentDTO departmentDTO = departmentService.findDepartmentByName(employeeDTO.getDepartmentName());
+//            employee.setDepartment(DepartmentMapper.INSTANCE.toEntity(departmentDTO));
+//        }
+//        if (employeeDTO.getSalaryId() != null) {
+//            SalaryService salaryService = new SalaryService();
+//            Optional<SalaryDTO> salaryDTO = salaryDTO = salaryService.findSalaryById(employeeDTO.getSalaryId());
+//            employee.setSalary(SalaryMapper.INSTANCE.toEntity(salaryDTO.get()));
+//        }
+//        if(employeeDTO.getManagedDepartmentName() != null){
+//            DepartmentService departmentService = new DepartmentService();
+//            DepartmentDTO departmentDTO = departmentService.findDepartmentByName(employeeDTO.getManagedDepartmentName());
+//            employee.setManagedDepartment(DepartmentMapper.INSTANCE.toEntity(departmentDTO));
+//        }
+//        if (employeeDTO.getManagerId() != null) {
+//            System.out.println("Manager ID: " + employeeDTO.getManagerId());
+//            EmployeeService employeeService = new EmployeeService();
+//            EmployeeDTO managerDTO = employeeService.findEmployeeById(employeeDTO.getManagerId());
+//            employee.setManager(EmployeeMapper.INSTANCE.toEntity(managerDTO));
+//        }
     }
 //    @Named("mapJob")
 //    default Job mapJob(String jobTitle) {

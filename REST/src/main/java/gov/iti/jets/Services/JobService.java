@@ -1,60 +1,56 @@
 package gov.iti.jets.Services;
 
+import gov.iti.jets.Exceptions.ExceptionMessages.BadArgumentException;
 import gov.iti.jets.Persistence.DAOs.Implementations.JobDAO;
 import gov.iti.jets.Persistence.DTOs.JobDTO;
 import gov.iti.jets.Persistence.Entities.Job;
 import gov.iti.jets.Persistence.Mappers.JobMapper;
 import gov.iti.jets.Utils.JPATransactionManager;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-import jakarta.ws.rs.GET;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class JobService {
+public class JobService implements GenericService<JobDTO> {
+    JobDAO jobDAO;
+
+    public JobService() {
+        jobDAO = new JobDAO();
+    }
     // find job by title
 
     public JobDTO findJobByTitle(String title) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            JobDAO jobDAO = new JobDAO();
             return JobMapper.INSTANCE.toDto(jobDAO.findByTitle(title, entityManager));
         });
     }
 
-    public JobDTO findJobById(Integer id) {
+    public JobDTO getById(Integer id) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            JobDAO jobDAO = new JobDAO();
             return JobMapper.INSTANCE.toDto(jobDAO.findById(id, entityManager));
         });
     }
     // get all jobs
-    public List<JobDTO> findAll(int page, int size) {
+    public List<JobDTO> getAll(int page, int size) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            JobDAO jobDAO = new JobDAO();
             return (List<JobDTO>)JobMapper.INSTANCE.collectionToDto(jobDAO.findAll(entityManager, page, size));
         });
     }
 
     // add job
-    public boolean addJob(JobDTO jobDTO) {
+    public JobDTO create(JobDTO jobDTO) throws BadArgumentException {
+        if (jobDTO.getMaxSalary() == null || jobDTO.getMinSalary() == null || jobDTO.getJobTitle() == null)
+            throw new BadArgumentException("Some fields are missing");
         return JPATransactionManager.doInTransaction(entityManager -> {
-            JobDAO jobDAO = new JobDAO();
             Job job = JobMapper.INSTANCE.toEntity(jobDTO);
-            return jobDAO.create(job, entityManager);
+            return JobMapper.INSTANCE.toDto(jobDAO.create(job, entityManager));
         });
     }
 
     // update job
-    public JobDTO updateJob(JobDTO jobDTO) {
+    public JobDTO update(JobDTO jobDTO) throws BadArgumentException {
+        if (jobDTO.getJobId() == null ||jobDTO.getMaxSalary() == null || jobDTO.getMinSalary() == null || jobDTO.getJobTitle() == null)
+            throw new BadArgumentException("Some fields are missing");
         return JPATransactionManager.doInTransaction(entityManager -> {
-            JobDAO jobDAO = new JobDAO();
-            Job existing = jobDAO.findById(jobDTO.getJobHistoryId(), entityManager);
+            Job existing = jobDAO.findById(jobDTO.getJobId(), entityManager);
             Job newJob = (Job) JobMapper.INSTANCE.toEntity(jobDTO);
             return JobMapper.INSTANCE.toDto(jobDAO.update(newJob, entityManager));
         });
@@ -62,17 +58,17 @@ public class JobService {
     // partial update job
     public JobDTO partialUpdateJob(JobDTO jobDTO) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            JobDAO jobDAO = new JobDAO();
-            Job existing = jobDAO.findById(jobDTO.getJobHistoryId(), entityManager);
+            Job existing = jobDAO.findById(jobDTO.getJobId(), entityManager);
             Job newJob = (Job) JobMapper.INSTANCE.partialUpdate(jobDTO, existing);
             return JobMapper.INSTANCE.toDto(jobDAO.update(newJob, entityManager));
         });
     }
     // delete job
-    public boolean deleteJob(int id) {
+    public boolean delete(Integer id) {
         return JPATransactionManager.doInTransaction(entityManager -> {
-            JobDAO jobDAO = new JobDAO();
             Job job = jobDAO.findById(id, entityManager);
+            if(job.isDeleted())
+                throw new BadArgumentException("Job is already deleted");
             job.setDeleted(true);
             return jobDAO.update(job, entityManager) != null;
         });
