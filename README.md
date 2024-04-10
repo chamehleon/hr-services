@@ -24,10 +24,10 @@ The HR Management System is a comprehensive software solution designed to stream
 
 ## Prerequisites
 
-**Java 17:** You can download it from here. Set JAVA_HOME to your Java path and add path/to/java/bin to your PATH environment variable. Verify the installation by running java -version in your terminal.  
-**MYSQL Database v8.0.32:** You can download it from here. Make sure you choose to install the Sakila Sample database while installing.  
-**Apache Tomcat 10.1.7:** You can download it from here. Download the Windows Zip file then extract it. Set CATALINA_HOME to your Tomcat path and add path/to/tomcat/bin to your PATH environment variable. Start the server by running catalina start in your terminal.  
-**Apache Maven:** You can download it from here. Download the Binary Zip Archive. Add path/to/maven/bin to your PATH environment variable. Verify the installation by running mvn -version in your terminal. 
+- **Java 17:** You can download it from here. Set JAVA_HOME to your Java path and add path/to/java/bin to your PATH environment variable. Verify the installation by running java -version in your terminal.  
+- **MYSQL Database v8.0.32:** You can download it from here. Make sure you choose to install the Sakila Sample database while installing.  
+- **Apache Tomcat 10.1.7:** You can download it from here. Download the Windows Zip file then extract it. Set CATALINA_HOME to your Tomcat path and add path/to/tomcat/bin to your PATH environment variable. Start the server by running catalina start in your terminal.
+- **Apache Maven:** You can download it from here. Download the Binary Zip Archive. Add path/to/maven/bin to your PATH environment variable. Verify the installation by running mvn -version in your terminal. 
 
 
 ## Getting Started
